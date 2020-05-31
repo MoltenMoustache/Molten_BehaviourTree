@@ -6,7 +6,6 @@ using UnityEditor;
 public class BT_Agent : MonoBehaviour
 {
     BehaviourTree tree = new BehaviourTree();
-    [SerializeField] MonoScript script;
     bool hasKey = false;
 
 
@@ -36,10 +35,7 @@ public class BT_Agent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            tree.Execute();
-        }
+        tree.Execute();
     }
 
 
@@ -121,15 +117,34 @@ public class BT_Agent : MonoBehaviour
         GameObject doorObject = GameObject.FindGameObjectWithTag("Door");
         if (doorObject != null)
         {
-            transform.position = doorObject.transform.position;
-            if (hasKey)
+            if (MoveToDoor())
             {
-                doorObject.transform.Rotate(new Vector3(0, 90f, 0));
-                Debug.Log("Opened Door");
-                return true;
+                if (hasKey)
+                {
+                    doorObject.transform.Rotate(new Vector3(0, 90f, 0));
+                    Debug.Log("Opened Door");
+                    return true;
+                }
+                else
+                    Debug.LogWarning("Can't open door -> no key!");
             }
             else
-                Debug.LogWarning("Can't open door -> no key!");
+                return false;
+        }
+
+        return false;
+    }
+
+    public bool MoveToDoor()
+    {
+        GameObject doorObject = GameObject.FindGameObjectWithTag("Door");
+        if (doorObject != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, doorObject.transform.position, 10 * Time.deltaTime);
+            if (transform.position == doorObject.transform.position)
+                return true;
+            else
+                return false;
         }
 
         return false;
