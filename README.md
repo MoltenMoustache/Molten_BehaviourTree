@@ -11,16 +11,17 @@ I will also be creating documentation along the way to aid the integration of th
 ### Package Features/Contents
 - [x] Composite Nodes
 - [x] Leaf Nodes
-- [ ] Decorator Nodes
+- [x] Decorator Nodes
 - [ ] Visual Node Graph Editor
 - [ ] Documentation
 
 ### Current Status
-The current status of the project as of 31/05/2020;
-Behaviour Trees can be made quite easily by creating a BehaviourTree object in a script that is placed on an A.I Agent. The trees can currently consist of Composite Nodes (Selector/Sequence) and Leaf Nodes, resulting in some relatively complex A.I behaviour.
-Decorator Nodes are next up on the block and straight after that I'm excited to work on the Node Graph Editor.
+The current status of the project as of 1/06/2020;
+Behaviour Trees can be made quite easily by creating a BehaviourTree object in a script that is placed on an A.I Agent. The trees can currently consist of Composite Nodes (Selector/Sequence), Leaf Nodes and Decorator Nodes (Repeater, Retry, Inverter, Succeeder, Failer), resulting in some relatively complex A.I behaviour.
 
-I'm updating this read me now, but I believe I'll be implementing Decorator Nodes tomorrow and I'll simply just have to change all of this anyway. All well!
+Surprise, surprise! I added Decorator Nodes the day after I last updated the README.
+
+My next plan is to change how the nodes return statuses so they can return a status of RUNNING instead of just SUCCESS or FAILURE. After that is the Node Graph Editor! Very exciting.
 
 ### Useful resources
 - [Gamasutra Article](https://www.gamasutra.com/blogs/ChrisSimpson/20140717/221339/Behavior_trees_for_AI_How_they_work.php)

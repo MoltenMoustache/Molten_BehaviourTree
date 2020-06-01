@@ -11,6 +11,7 @@ public class BT_Patrol : MonoBehaviour
     [SerializeField] Transform[] patrolPoints = null;
     int currentPatrolPointIndex = 0;
     [SerializeField] float movementSpeed = 3.0f;
+    [SerializeField] float viewDistance = 10.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,12 @@ public class BT_Patrol : MonoBehaviour
         tree.AddNode(new LeafNode(CheckForPlayer), playerFinderSequence);
         tree.AddNode(new LeafNode(GoToPlayer), playerFinderSequence);
 
-        tree.AddNode(new LeafNode(GoToNextPoint), selector);
+        SequenceNode patrolSequence = new SequenceNode();
+        InverterNode inverter = new InverterNode();
+        tree.AddNode(patrolSequence, selector);
+        tree.AddNode(inverter, patrolSequence);
+        tree.AddNode(new LeafNode(CheckForPlayer), inverter);
+        tree.AddNode(new LeafNode(GoToNextPoint), patrolSequence);
     }
 
     // Update is called once per frame
@@ -37,7 +43,7 @@ public class BT_Patrol : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
         {
-            if (Vector3.Distance(player.transform.position, transform.position) < 20.0f)
+            if (Vector3.Distance(player.transform.position, transform.position) < viewDistance)
                 return true;
         }
 
@@ -48,10 +54,13 @@ public class BT_Patrol : MonoBehaviour
     public bool GoToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        
         if (player)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
-            if (player.transform.position == transform.position)
+            Vector3 playerPos = player.transform.position;
+            playerPos.y = transform.position.y;
+            transform.position = Vector3.MoveTowards(transform.position, playerPos, movementSpeed * Time.deltaTime);
+            if (playerPos == transform.position)
             {
                 Destroy(player);
                 Debug.Log("Player caught!");
@@ -63,8 +72,10 @@ public class BT_Patrol : MonoBehaviour
 
     public bool GoToNextPoint()
     {
-        transform.position = Vector3.MoveTowards(transform.position, patrolPoints[currentPatrolPointIndex].position, movementSpeed * Time.deltaTime);
-        if (patrolPoints[currentPatrolPointIndex].position == transform.position)
+        Vector3 patrolPos = patrolPoints[currentPatrolPointIndex].transform.position;
+        patrolPos.y = transform.position.y;
+        transform.position = Vector3.MoveTowards(transform.position, patrolPos, movementSpeed * Time.deltaTime);
+        if (patrolPos == transform.position)
         {
             if (currentPatrolPointIndex == patrolPoints.Length - 1)
                 currentPatrolPointIndex = 0;
