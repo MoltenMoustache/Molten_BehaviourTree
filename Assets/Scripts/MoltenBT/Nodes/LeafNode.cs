@@ -5,14 +5,14 @@ using System;
 
 public class LeafNode : Node
 {
-    Func<bool> leafAction = null;
+    Func<NodeResult> leafAction = null;
 
-    public LeafNode(Func<bool> a_action)
+    public LeafNode(Func<NodeResult> a_action)
     {
         leafAction = a_action;
     }
 
-    public override bool Execute()
+    public override NodeResult Execute()
     {
         return leafAction.Invoke();
     }

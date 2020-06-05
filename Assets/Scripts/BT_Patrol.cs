@@ -38,23 +38,22 @@ public class BT_Patrol : MonoBehaviour
         tree.Execute();
     }
 
-    public bool CheckForPlayer()
+    public NodeResult CheckForPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
         {
             if (Vector3.Distance(player.transform.position, transform.position) < viewDistance)
-                return true;
+                return NodeResult.SUCCESS;
         }
-
-        Debug.Log("Player not found");
-        return false;
+        return NodeResult.FAILURE;
     }
 
-    public bool GoToPlayer()
+    public NodeResult GoToPlayer()
     {
+        Debug.Log("go to player");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        
+
         if (player)
         {
             Vector3 playerPos = player.transform.position;
@@ -64,14 +63,15 @@ public class BT_Patrol : MonoBehaviour
             {
                 Destroy(player);
                 Debug.Log("Player caught!");
-                return true;
+                return NodeResult.SUCCESS;
             }
         }
-        return false;
+        return NodeResult.RUNNING;
     }
 
-    public bool GoToNextPoint()
+    public NodeResult GoToNextPoint()
     {
+        Debug.Log("go to point");
         Vector3 patrolPos = patrolPoints[currentPatrolPointIndex].transform.position;
         patrolPos.y = transform.position.y;
         transform.position = Vector3.MoveTowards(transform.position, patrolPos, movementSpeed * Time.deltaTime);
@@ -82,10 +82,10 @@ public class BT_Patrol : MonoBehaviour
             else
                 currentPatrolPointIndex++;
 
-            return true;
+            return NodeResult.SUCCESS;
         }
 
         Debug.LogWarning("Not at next point");
-        return false;
+        return NodeResult.RUNNING;
     }
 }

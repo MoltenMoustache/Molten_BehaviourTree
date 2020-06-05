@@ -10,21 +10,22 @@ public class SelectorNode : Node
         childNodes = new List<Node>();
     }
 
-    public override bool Execute()
+    public override NodeResult Execute()
     {
         nodeState = NodeResult.RUNNING;
 
         // Loops through all child nodes, if any return a success; child processing halts and the selector node returns successful.
         for (int i = 0; i < childNodes.Count; i++)
         {
-            if (childNodes[i].Execute())
+            switch (childNodes[i].Execute())
             {
-                nodeState = NodeResult.SUCCESS;
-                return true;
+                case NodeResult.SUCCESS:
+                    return NodeResult.SUCCESS;
+                case NodeResult.RUNNING:
+                    return NodeResult.RUNNING;
             }
         }
 
-        nodeState = NodeResult.FAILURE;
-        return false;
+        return NodeResult.FAILURE;
     }
 }

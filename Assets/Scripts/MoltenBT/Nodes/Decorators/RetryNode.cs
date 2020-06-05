@@ -5,20 +5,27 @@ using UnityEngine;
 public class RetryNode : Node
 {
     int tryCount;
+    int currentIteration = 0;
     public RetryNode(int a_tryCount)
     {
         childNodes = new List<Node>();
         tryCount = a_tryCount;
     }
 
-    public override bool Execute()
+    public override NodeResult Execute()
     {
-        for (int i = 0; i < tryCount; i++)
+        for (int i = currentIteration; i < tryCount; i++)
         {
-            if (childNodes[0].Execute())
-                return true;
+            switch (childNodes[0].Execute())
+            {
+                case NodeResult.SUCCESS:
+                    return NodeResult.SUCCESS;
+                case NodeResult.RUNNING:
+                    return NodeResult.RUNNING;
+            }
         }
 
-        return false;
+        currentIteration = 0;
+        return NodeResult.FAILURE;
     }
 }

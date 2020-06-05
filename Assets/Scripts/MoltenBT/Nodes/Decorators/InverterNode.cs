@@ -9,9 +9,19 @@ public class InverterNode : Node
         childNodes = new List<Node>();
     }
 
-    public override bool Execute()
+    public override NodeResult Execute()
     {
         // Simply returns the opposite result of the child node
-        return !childNodes[0].Execute();
+        switch (childNodes[0].Execute())
+        {
+            case NodeResult.SUCCESS:
+                return NodeResult.FAILURE;
+            case NodeResult.RUNNING:
+                return NodeResult.RUNNING;
+            case NodeResult.FAILURE:
+                return NodeResult.SUCCESS;
+            default:
+                return NodeResult.FAILURE;
+        }
     }
 }

@@ -4,17 +4,30 @@ using UnityEngine;
 
 public class RepeatNode : Node
 {
-    public RepeatNode()
+    int tryCount = 0;
+    int currentIteration = 0;
+
+    public RepeatNode(int a_tryCount)
     {
         childNodes = new List<Node>();
+        tryCount = a_tryCount;
     }
-    public override bool Execute()
+    public override NodeResult Execute()
     {
-        for (int i = 0; i < childNodes.Count; i++)
+        for (int i = currentIteration; i < tryCount; i++)
         {
-            childNodes[i].Execute();
+
+            switch (childNodes[0].Execute())
+            {
+                case NodeResult.RUNNING:
+                    return NodeResult.RUNNING;
+                case NodeResult.FAILURE:
+                    return NodeResult.FAILURE;
+            }
         }
 
-        return true;
+        currentIteration = 0;
+
+        return NodeResult.SUCCESS;
     }
 }

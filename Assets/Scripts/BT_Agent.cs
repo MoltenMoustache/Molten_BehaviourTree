@@ -11,25 +11,25 @@ public class BT_Agent : MonoBehaviour
 
     private void Start()
     {
-        tree.AddNode(new RepeatNode());
+        //tree.AddNode(new RepeatNode());
 
-        SelectorNode selector = new SelectorNode();
-        tree.AddNode(selector, tree.GetStartNode());
+        //SelectorNode selector = new SelectorNode();
+        //tree.AddNode(selector, tree.GetStartNode());
 
-        SequenceNode standardOpen = new SequenceNode();
-        tree.AddNode(new LeafNode(FindDoor), standardOpen);
-        tree.AddNode(new LeafNode(OpenDoor), standardOpen);
-        tree.AddNode(standardOpen, selector);
+        //SequenceNode standardOpen = new SequenceNode();
+        //tree.AddNode(new LeafNode(FindDoor), standardOpen);
+        //tree.AddNode(new LeafNode(OpenDoor), standardOpen);
+        //tree.AddNode(standardOpen, selector);
 
 
-        SequenceNode keyToDoorSequence = new SequenceNode();
+        //SequenceNode keyToDoorSequence = new SequenceNode();
 
-        tree.AddNode(new LeafNode(FindDoor), keyToDoorSequence);
-        tree.AddNode(new LeafNode(GetKey), keyToDoorSequence);
-        tree.AddNode(new LeafNode(OpenDoor), keyToDoorSequence);
-        tree.AddNode(keyToDoorSequence, selector);
+        //tree.AddNode(new LeafNode(FindDoor), keyToDoorSequence);
+        //tree.AddNode(new LeafNode(GetKey), keyToDoorSequence);
+        //tree.AddNode(new LeafNode(OpenDoor), keyToDoorSequence);
+        //tree.AddNode(keyToDoorSequence, selector);
 
-        tree.Execute();
+        //tree.Execute();
     }
 
     // Update is called once per frame

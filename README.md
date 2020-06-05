@@ -19,9 +19,10 @@ I will also be creating documentation along the way to aid the integration of th
 The current status of the project as of 1/06/2020;
 Behaviour Trees can be made quite easily by creating a BehaviourTree object in a script that is placed on an A.I Agent. The trees can currently consist of Composite Nodes (Selector/Sequence), Leaf Nodes and Decorator Nodes (Repeater, Retry, Inverter, Succeeder, Failer), resulting in some relatively complex A.I behaviour.
 
-Surprise, surprise! I added Decorator Nodes the day after I last updated the README.
+The last update altered the return type of all nodes to now return SUCCESS, FAILURE or RUNNING. SUCCESS and FAILURE work the same as the true/false bool return of the previous version, however returning RUNNING will stop the behaviour tree on the current node.
+This means things like moving to a new position can return RUNNING when they're on the move. This means no further processing will be done on nodes that come after the Move node, but will still allow nodes that come before to interrupt the movement.
 
-My next plan is to change how the nodes return statuses so they can return a status of RUNNING instead of just SUCCESS or FAILURE. After that is the Node Graph Editor! Very exciting.
+My next plan is to add the Node Graph Editor! Very exciting. After that I'll just just work on some documentation and publish!
 
 ### Useful resources
 - [Gamasutra Article](https://www.gamasutra.com/blogs/ChrisSimpson/20140717/221339/Behavior_trees_for_AI_How_they_work.php)

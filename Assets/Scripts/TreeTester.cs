@@ -8,14 +8,14 @@ public class TreeTester : MonoBehaviour
 
     private void Start()
     {
-        tree = new BehaviourTree();
-        SelectorNode sequence = new SelectorNode();
-        tree.AddNode(sequence);
-        tree.AddNode(new LeafNode(LogGoodbye), sequence);
-        tree.AddNode(new LeafNode(LogGoodbye), sequence);
-        tree.AddNode(new LeafNode(LogHello), sequence);
+        //tree = new BehaviourTree();
+        //SelectorNode sequence = new SelectorNode();
+        //tree.AddNode(sequence);
+        //tree.AddNode(new LeafNode(LogGoodbye), sequence);
+        //tree.AddNode(new LeafNode(LogGoodbye), sequence);
+        //tree.AddNode(new LeafNode(LogHello), sequence);
 
-        tree.Execute();
+        //tree.Execute();
     }
 
     bool LogHello()

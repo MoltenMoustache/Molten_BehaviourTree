@@ -12,14 +12,14 @@ public class RepeaterNode : Node
         repeaterCount = a_count;
     }
 
-    public override bool Execute()
+    public override NodeResult Execute()
     {
         for (int i = 0; i < repeaterCount; i++)
         {
-            if (!childNodes[0].Execute())
-                return false;
+            if (childNodes[0].Execute() == NodeResult.FAILURE)
+                return NodeResult.FAILURE;
         }
 
-        return true;
+        return NodeResult.SUCCESS;
     }
 }

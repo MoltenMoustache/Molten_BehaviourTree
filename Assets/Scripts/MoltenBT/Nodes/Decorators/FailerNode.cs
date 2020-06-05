@@ -9,9 +9,9 @@ public class FailerNode : Node
         childNodes = new List<Node>();
     }
 
-    public override bool Execute()
+    public override NodeResult Execute()
     {
         childNodes[0].Execute();
-        return false;
+        return NodeResult.FAILURE;
     }
 }

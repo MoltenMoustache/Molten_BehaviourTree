@@ -27,11 +27,9 @@ public class Node
         return childNodes[a_index];
     }
 
-    public virtual bool Execute()
+    public virtual NodeResult Execute()
     {
-        nodeState = NodeResult.RUNNING;
-        nodeState = NodeResult.SUCCESS;
-        return true;
+        return NodeResult.SUCCESS;
     }
 
     public NodeResult GetNodeResult() { return nodeState; }
