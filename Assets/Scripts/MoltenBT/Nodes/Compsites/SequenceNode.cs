@@ -23,7 +23,6 @@ public class SequenceNode : Node
             }
         }
 
-        Debug.Log("Sequence success");
         return NodeResult.SUCCESS;
     }
 }

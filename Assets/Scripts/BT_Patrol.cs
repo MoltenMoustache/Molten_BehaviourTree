@@ -12,6 +12,7 @@ public class BT_Patrol : MonoBehaviour
     int currentPatrolPointIndex = 0;
     [SerializeField] float movementSpeed = 3.0f;
     [SerializeField] float viewDistance = 10.0f;
+    [SerializeField] float attackRange = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -44,14 +45,22 @@ public class BT_Patrol : MonoBehaviour
         if (player)
         {
             if (Vector3.Distance(player.transform.position, transform.position) < viewDistance)
-                return NodeResult.SUCCESS;
+            {
+                RaycastHit hit;
+                if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit, viewDistance))
+                {
+                    if(hit.transform.tag == "Player" && player.GetComponent<Renderer>().enabled)
+                    {
+                        return NodeResult.SUCCESS;
+                    }
+                }
+            }
         }
         return NodeResult.FAILURE;
     }
 
     public NodeResult GoToPlayer()
     {
-        Debug.Log("go to player");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player)
@@ -59,10 +68,9 @@ public class BT_Patrol : MonoBehaviour
             Vector3 playerPos = player.transform.position;
             playerPos.y = transform.position.y;
             transform.position = Vector3.MoveTowards(transform.position, playerPos, movementSpeed * Time.deltaTime);
-            if (playerPos == transform.position)
+            if (Vector3.Distance(transform.position, player.transform.position) < attackRange)
             {
                 Destroy(player);
-                Debug.Log("Player caught!");
                 return NodeResult.SUCCESS;
             }
         }
@@ -71,7 +79,6 @@ public class BT_Patrol : MonoBehaviour
 
     public NodeResult GoToNextPoint()
     {
-        Debug.Log("go to point");
         Vector3 patrolPos = patrolPoints[currentPatrolPointIndex].transform.position;
         patrolPos.y = transform.position.y;
         transform.position = Vector3.MoveTowards(transform.position, patrolPos, movementSpeed * Time.deltaTime);
@@ -85,7 +92,6 @@ public class BT_Patrol : MonoBehaviour
             return NodeResult.SUCCESS;
         }
 
-        Debug.LogWarning("Not at next point");
         return NodeResult.RUNNING;
     }
 }
